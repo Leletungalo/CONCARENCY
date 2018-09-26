@@ -34,7 +34,7 @@ public class SunData{
 			{
 				int xloc = sc.nextInt();
 				int yloc = sc.nextInt();
-				float ext = (float) sc.nextInt();
+				int ext = sc.nextInt();
 				trees[t] = new Tree(xloc, yloc, ext);
 			}
 			sc.close(); 

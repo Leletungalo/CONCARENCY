@@ -1,8 +1,8 @@
 //package treeGrow;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.List;
 import java.util.Random;
-import java.awt.Graphics;
 import javax.swing.JPanel;
 import java.util.*;
 
@@ -40,13 +40,13 @@ public class ForestPanel extends JPanel implements Runnable {
 			}
 			minh = maxh;  // next band of trees
 			maxh += 2.0f;
-		}	
+		}
 	}
 	
 	public void run() {
 			
 		// reordering so that trees are rendered in a more random fashion
-		rndorder = new ArrayList<Integer>();
+		rndorder = new ArrayList<>();
 		for(int l = 0; l < forest.length; l++)
 			rndorder.add(l);
 		java.util.Collections.shuffle(rndorder);

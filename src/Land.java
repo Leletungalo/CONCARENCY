@@ -3,7 +3,7 @@
 public class Land{
 	
 	private int xOfLand, yOfLand;
-	private float[][] land;
+	private static float[][] land;
 	// sun exposure data here
 
 	static float shadefraction = 0.1f; // only this fraction of light is transmitted by a tree
@@ -15,13 +15,11 @@ public class Land{
 	}
 
 	int getDimX() {
-		// to do
-		return 0; // incorrect value
+		return xOfLand;
 	}
 	
 	int getDimY() {
-		// to do
-		return 0; // incorrect value
+		return yOfLand;
 	}
 	
 	// Reset the shaded landscape to the same as the initial sun exposed landscape
@@ -47,8 +45,12 @@ public class Land{
 	void setShade(int x, int y, float val){
 		// to do
 	}
-	
-	// reduce the 
+
+	public static synchronized float[][] getLand() {
+		return land;
+	}
+
+	// reduce the
 	void shadow(Tree tree){
 		// to do
 	}

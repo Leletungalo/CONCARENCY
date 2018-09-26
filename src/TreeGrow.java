@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.ForkJoinPool;
 
 public class TreeGrow {
 	static long startTime = 0;
@@ -46,24 +48,32 @@ public class TreeGrow {
 	    g.add(scrollFrame);
 
 	    JPanel buttonpanel = new JPanel();
-	   // buttonpanel.setSize(700,200);
+	    buttonpanel.setLayout(new GridLayout(1,4));
+	    buttonpanel.setBackground(Color.red);
+		Label yearCounter = new Label("years");
 	    Button Exit = new Button("Exit");
 	    Button play = new Button("Play");
 	    Button pouse = new Button("Pouse");
+	    buttonpanel.add(yearCounter);
 	    buttonpanel.add(play);
 	    buttonpanel.add(pouse);
 	    buttonpanel.add(Exit);
 
-    	
-      	frame.setLocationRelativeTo(null);  // Center window on screen.
-     	frame.add(g ,bd.CENTER); //add contents to window
+
+      	frame.setLocationRelativeTo(null);// Center window on screen.
+
+
+        frame.add(g ,bd.CENTER); //add contents to window
+		frame.setContentPane(g);
 		frame.add(buttonpanel, bd.SOUTH);
-      //  frame.setContentPane(g);
         frame.setVisible(true);
         Thread fpt = new Thread(fp);
         fpt.start();
 	}
-	
+	private static final ForkJoinPool fjPool = new ForkJoinPool();
+	private static double sum(int[][] arr){
+		return fjPool.invoke(new Tread(arr,0,arr.length));
+	}
 		
 	public static void main(String[] args) {
 		SunData sundata = new SunData();
@@ -71,6 +81,16 @@ public class TreeGrow {
 		// read in forest and landscape information from file supplied as argument
 		sundata.readData("sample_input.txt");
 		System.out.println("Data loaded");
+		ArrayList<int[]> tempArr = new ArrayList<>() ;
+		for (Tree t: sundata.trees) {
+			if (t.getExt() > 18 && t.getExt() < 20){
+				int x = t.getX();
+				int y = t.getY();
+				int ex = Math.round(t.getExt());
+				int[] some = {x, y, ex};
+				tempArr.add(some);
+			}
+		}
 		
 		frameX = sundata.sunmap.getDimX();
 		frameY = sundata.sunmap.getDimY();
