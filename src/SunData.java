@@ -24,7 +24,6 @@ public class SunData{
 				for(int y = 0; y < dimy; y++) {
 					sunmap.setFull(x,y,sc.next());
 				}
-			System.out.println();
 				sunmap.resetShade();
 			
 			// load forest

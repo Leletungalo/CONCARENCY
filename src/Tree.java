@@ -23,7 +23,7 @@ public
 		return ypos;
 	}
 	
-	float getExt() {
+	int getExt() {
 		return ext;
 	}
 	

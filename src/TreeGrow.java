@@ -71,8 +71,8 @@ public class TreeGrow {
         fpt.start();
 	}
 	private static final ForkJoinPool fjPool = new ForkJoinPool();
-	private static double sum(int[][] arr){
-		return fjPool.invoke(new Tread(arr,0,arr.length));
+	private static double sum(ArrayList<int[]> arr){
+		return fjPool.invoke(new Tread(arr,0,arr.size()));
 	}
 		
 	public static void main(String[] args) {
@@ -81,21 +81,34 @@ public class TreeGrow {
 		// read in forest and landscape information from file supplied as argument
 		sundata.readData("sample_input.txt");
 		System.out.println("Data loaded");
-		ArrayList<int[]> tempArr = new ArrayList<>() ;
-		for (Tree t: sundata.trees) {
-			if (t.getExt() > 18 && t.getExt() < 20){
-				int x = t.getX();
-				int y = t.getY();
-				int ex = Math.round(t.getExt());
-				int[] some = {x, y, ex};
-				tempArr.add(some);
-			}
-		}
-		
+
 		frameX = sundata.sunmap.getDimX();
 		frameY = sundata.sunmap.getDimY();
 		setupGUI(frameX, frameY, sundata.trees);
 		
 		// create and start simulation loop here as separate thread
+		int lower = 18;
+		int higher = 20;
+		ArrayList<int[]> tempArr = new ArrayList<>();
+		for (int i = 0; i < 10;i++) {
+
+			for (Tree t : sundata.trees) {
+				if (t.getExt() >= lower && t.getExt() < higher) {
+
+					int x = t.getX();
+					int y = t.getY();
+					int ex = t.getExt();
+					int[] some = {x, y, ex};
+					tempArr.add(some);
+				}
+
+			}
+			if (lower > 0){
+				lower -= 2;
+				higher -= 2;}
+			sum(tempArr);
+			tempArr.clear();
+			//		System.out.println();
+		}
 	}
 }
