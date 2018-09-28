@@ -26,6 +26,7 @@ public class Land{
 	// Needs to be done after each growth pass of the simulator
 	void resetShade() {
 		// to do
+
 	}
 	
 	float getFull(int x, int y) {
@@ -38,7 +39,8 @@ public class Land{
 	}
 	
 	float getShade(int x, int y) {
-		// to do 
+		// to do
+
 		return 0.0f; // incorrect value
 	}
 	

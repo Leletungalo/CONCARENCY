@@ -3,15 +3,14 @@
 // Trees define a canopy which covers a square area of the landscape
 public class Tree{
 	
-private
-	int xpos;	// x-coordinate of center of tree canopy
-	int ypos;	// y-coorindate of center of tree canopy
-	static int ext;	// extent of canopy out in vertical and horizontal from center
+private int xpos;	// x-coordinate of center of tree canopy
+	    int ypos;	// y-coorindate of center of tree canopy
+	    float ext;	// extent of canopy out in vertical and horizontal from center
 	
 	static float growfactor = 1000.0f; // divide average sun exposure by this amount to get growth in extent
 	
 public	
-	Tree(int x, int y, int e){
+	Tree(int x, int y, float e){
 		xpos=x; ypos=y; ext=e;
 	}
 	
@@ -23,11 +22,11 @@ public
 		return ypos;
 	}
 	
-	int getExt() {
+	float getExt() {
 		return ext;
 	}
 	
-	static synchronized void setExt(int e) {
+	synchronized void setExt(int e) {
 		ext = e;
 	}
 

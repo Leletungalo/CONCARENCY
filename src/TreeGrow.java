@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 
 public class TreeGrow {
@@ -30,13 +31,13 @@ public class TreeGrow {
 		// Frame init and dimensions
     	JFrame frame = new JFrame("Photosynthesis"); 
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    	//frame.setPreferredSize(fsize);
+    	frame.setPreferredSize(fsize);
 		BorderLayout bd = new BorderLayout();
 		frame.setLayout(bd);
     	frame.setSize(800, 800);
     	
       	JPanel g = new JPanel();
-      //	g.setSize(800,600);
+      	//g.setSize(800,600);
         g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
      	g.setPreferredSize(fsize);
  
@@ -53,17 +54,17 @@ public class TreeGrow {
 		Label yearCounter = new Label("years");
 	    Button Exit = new Button("Exit");
 	    Button play = new Button("Play");
-	    Button pouse = new Button("Pouse");
+	    Button pause = new Button("Pause");
+	    Button Reset = new Button("Reset");
 	    buttonpanel.add(yearCounter);
+	    buttonpanel.add(Reset);
 	    buttonpanel.add(play);
-	    buttonpanel.add(pouse);
+	    buttonpanel.add(pause);
 	    buttonpanel.add(Exit);
 
 
       	frame.setLocationRelativeTo(null);// Center window on screen.
-
-
-        frame.add(g ,bd.CENTER); //add contents to window
+		frame.add(g ,bd.CENTER); //add contents to window
 		frame.setContentPane(g);
 		frame.add(buttonpanel, bd.SOUTH);
         frame.setVisible(true);
@@ -71,7 +72,7 @@ public class TreeGrow {
         fpt.start();
 	}
 	private static final ForkJoinPool fjPool = new ForkJoinPool();
-	private static double sum(ArrayList<int[]> arr){
+	private static ArrayList<Tree> sum(ArrayList<float[]> arr){
 		return fjPool.invoke(new Tread(arr,0,arr.size()));
 	}
 		
@@ -89,16 +90,24 @@ public class TreeGrow {
 		// create and start simulation loop here as separate thread
 		int lower = 18;
 		int higher = 20;
-		ArrayList<int[]> tempArr = new ArrayList<>();
+		Tree[] result = new Tree[sundata.trees.length];
+		Arrays.fill(result,new Tree(-1,-1,-1));
+		ArrayList<Tree> newLister = new ArrayList<>();
+		ArrayList<float[]> tempArr = new ArrayList<>();
+
+
 		for (int i = 0; i < 10;i++) {
 
 			for (Tree t : sundata.trees) {
-				if (t.getExt() >= lower && t.getExt() < higher) {
+				float ext = t.getExt();
+				ext = (ext + ext + 1);
+				System.out.println(ext);
+				if ( ext >= lower && ext < higher) {
 
-					int x = t.getX();
-					int y = t.getY();
-					int ex = t.getExt();
-					int[] some = {x, y, ex};
+					float x = t.getX();
+					float y = t.getY();
+					float ex = t.getExt();
+					float[] some = {x, y, ex};
 					tempArr.add(some);
 				}
 
@@ -106,9 +115,18 @@ public class TreeGrow {
 			if (lower > 0){
 				lower -= 2;
 				higher -= 2;}
-			sum(tempArr);
-			tempArr.clear();
-			//		System.out.println();
+			int counter = 0;
+			if (tempArr.size() > 0)	{
+				ArrayList<Tree> gtg = sum(tempArr);
+				newLister.addAll(gtg);
+				/*Tree[] kaka = gtg.toArray(new Tree[gtg.size()]);
+				System.arraycopy(kaka,counter,result,counter,kaka.length-1);
+				counter = kaka.length;*/
+			tempArr.clear();}
 		}
+		result = newLister.toArray(new Tree[newLister.size()]);
+
+//		System.out.println(result[result.length/2].getExt());
+		//setupGUI(frameX, frameY, result);
 	}
 }

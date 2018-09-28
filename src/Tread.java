@@ -1,26 +1,33 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.RecursiveTask;
 
-public class Tread extends RecursiveTask<Double> {
+public class Tread extends RecursiveTask<ArrayList<Tree>> {
     private int lo;
     private int hi;
-    private ArrayList<int[]> arr;
+    private ArrayList<float[]> arr;
+    private ArrayList<Tree> tree;
     private static final int SEQUENTIAL_CUTOFF = 500;
 
-   public Tread(ArrayList<int[]> a, int l, int h) {
+   public Tread(ArrayList<float[]> a, int l, int h) {
         lo=l; hi=h; arr=a;
+        tree = new ArrayList<>();
     }
 
-    protected Double compute(){
+    protected ArrayList<Tree> compute(){
 
         if((hi-lo) < SEQUENTIAL_CUTOFF) {
             float[][] dataaa = Land.getLand();
             int count = 0;
             for(int i=lo; i < hi; i++){
-                int xOfTree = arr.get(count)[0];
-                int yOfTree = arr.get(count)[1];
-                int lengthOfTree = arr.get(count)[2];
+                int xOfTree = (int) arr.get(count)[0];
+                int yOfTree = (int) arr.get(count)[1];
+                int lengthOfTree = (int) arr.get(count)[2];
                // System.out.println(lengthOfTree);
+                int x1 = xOfTree;
+                int y2 = yOfTree;
                 int xr = xOfTree - lengthOfTree;
                 int yr = yOfTree - lengthOfTree;
                 lengthOfTree = lengthOfTree + 1;
@@ -44,11 +51,9 @@ public class Tread extends RecursiveTask<Double> {
                 }
                   lengthOfTree = Math.round( lengthOfTree + totalForOneTree/1000);
 
-                  Tree.setExt(lengthOfTree);
-               //   System.out.println("-------------------------");
-               //   System.out.println(lengthOfTree);
+                tree.add(new Tree(x1,y2,lengthOfTree/2+1));
             }
-            return 0.0;
+            return tree;
         }
         else {
            Tread left = new Tread(arr,lo,(hi+lo)/2);
@@ -56,9 +61,13 @@ public class Tread extends RecursiveTask<Double> {
 
             left.fork();
             right.fork();
-           double rightAns = right.join();
-           double leftAns  = left.join();
-            return 0.0;
+            ArrayList<Tree> rightAns = right.join();
+            ArrayList<Tree> leftAns  = left.join();
+            ArrayList<Tree> newlist = new ArrayList<Tree>();
+            newlist.addAll(rightAns);
+            newlist.addAll(leftAns);
+            return newlist ;
         }
     }
+
 }

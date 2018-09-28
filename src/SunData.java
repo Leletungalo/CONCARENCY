@@ -10,8 +10,9 @@ import java.io.PrintWriter;
 public class SunData{
 	
 	Land sunmap; // regular grid with average daily sunlight stored at each grid point
-	Tree [] trees; // array of individual tress located on the sunmap	
-	
+	Tree [] trees;// array of individual tress located on the sunmap
+	Tree [] inTrees;
+
 	void readData(String fileName){ 
 		try{ 
 			Scanner sc = new Scanner(new File(fileName));
@@ -29,11 +30,13 @@ public class SunData{
 			// load forest
 			int numt = sc.nextInt();
 			trees = new Tree[numt];
+			inTrees = new Tree[numt];
 			for(int t=0; t < numt; t++)
 			{
 				int xloc = sc.nextInt();
 				int yloc = sc.nextInt();
-				int ext = sc.nextInt();
+				float ext = sc.nextInt();
+				inTrees[t] = new Tree(xloc,yloc,(float) 0.4);
 				trees[t] = new Tree(xloc, yloc, ext);
 			}
 			sc.close(); 
