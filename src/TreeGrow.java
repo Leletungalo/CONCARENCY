@@ -4,7 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,6 +17,9 @@ public class TreeGrow {
 	static int frameX;
 	static int frameY;
 	static ForestPanel fp;
+	static JFrame frame;
+	static JPanel g;
+	static BorderLayout bd;
 
 	// start timer
 	private static void tick(){
@@ -29,14 +34,14 @@ public class TreeGrow {
 	public static void setupGUI(int frameX,int frameY,Tree [] trees) {
 		Dimension fsize = new Dimension(800, 700);
 		// Frame init and dimensions
-    	JFrame frame = new JFrame("Photosynthesis"); 
+		frame = new JFrame("Photosynthesis");
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setPreferredSize(fsize);
-		BorderLayout bd = new BorderLayout();
+    	bd = new BorderLayout();
 		frame.setLayout(bd);
     	frame.setSize(800, 800);
     	
-      	JPanel g = new JPanel();
+    	g = new JPanel();
       	//g.setSize(800,600);
         g.setLayout(new BoxLayout(g, BoxLayout.PAGE_AXIS)); 
      	g.setPreferredSize(fsize);
@@ -71,6 +76,19 @@ public class TreeGrow {
         Thread fpt = new Thread(fp);
         fpt.start();
 	}
+
+	public static void upDate( Tree [] trees){
+		fp = new ForestPanel(trees);
+		Dimension fsize = new Dimension(800, 700);
+		JPanel gr = new JPanel();
+		//g.setSize(800,600);
+		gr.setLayout(new BoxLayout(gr, BoxLayout.PAGE_AXIS));
+		gr.setPreferredSize(fsize);
+
+		frame.remove(g);
+		frame.add(gr,bd.CENTER);
+
+	}
 	private static final ForkJoinPool fjPool = new ForkJoinPool();
 	private static ArrayList<Tree> sum(ArrayList<float[]> arr){
 		return fjPool.invoke(new Tread(arr,0,arr.size()));
@@ -85,7 +103,7 @@ public class TreeGrow {
 
 		frameX = sundata.sunmap.getDimX();
 		frameY = sundata.sunmap.getDimY();
-		setupGUI(frameX, frameY, sundata.trees);
+		//setupGUI(frameX, frameY, sundata.inTrees);
 		
 		// create and start simulation loop here as separate thread
 		int lower = 18;
@@ -97,36 +115,70 @@ public class TreeGrow {
 
 
 		for (int i = 0; i < 10;i++) {
-
-			for (Tree t : sundata.trees) {
-				float ext = t.getExt();
-				ext = (ext + ext + 1);
-				System.out.println(ext);
-				if ( ext >= lower && ext < higher) {
-
+			try {
+		BufferedWriter writer = new BufferedWriter(new FileWriter("test1.txt"));
+				for (Tree t : sundata.trees) {
+					float ext = t.getExt();
 					float x = t.getX();
 					float y = t.getY();
-					float ex = t.getExt();
-					float[] some = {x, y, ex};
-					tempArr.add(some);
-				}
 
-			}
-			if (lower > 0){
-				lower -= 2;
-				higher -= 2;}
-			int counter = 0;
-			if (tempArr.size() > 0)	{
-				ArrayList<Tree> gtg = sum(tempArr);
-				newLister.addAll(gtg);
+					ext = (ext + ext + 1);
+//					writer.write(String.valueOf(t.getX()));
+//					writer.write(" ");
+//					writer.write(String.valueOf(t.getY()));
+//					writer.write(" ");
+//					writer.write(String.valueOf(ext));
+//					writer.newLine();
+					if ( ext >= lower && ext < higher) {
+
+
+						float ex = t.getExt();
+						float[] some = {x, y, ex};
+						tempArr.add(some);
+					}
+
+				}
+				if (lower > 0){
+					lower -= 2;
+					higher -= 2;}
+				if (tempArr.size() > 0)	{
+					ArrayList<Tree> gtg = sum(tempArr);
+					newLister.addAll(gtg);
 				/*Tree[] kaka = gtg.toArray(new Tree[gtg.size()]);
 				System.arraycopy(kaka,counter,result,counter,kaka.length-1);
 				counter = kaka.length;*/
-			tempArr.clear();}
-		}
-		result = newLister.toArray(new Tree[newLister.size()]);
 
+					tempArr.clear();}
+		writer.flush();
+		writer.close();
+	} catch (IOException e) {
+     e.printStackTrace();
+		}
+
+		}
+		//System.exit(0);
+		result = newLister.toArray(new Tree[newLister.size()]);
+		setupGUI(frameX, frameY, result);
+
+
+//		try {
+//			BufferedWriter writer = new BufferedWriter(new FileWriter("test2.txt"));
+//			for (Tree tree : result){
+//
+//				writer.write(String.valueOf(tree.getX()));
+//				writer.write(" ");
+//				writer.write(String.valueOf(tree.getY()));
+//				writer.write(" ");
+//				writer.write(String.valueOf(tree.getExt()));
+//				writer.newLine();
+//			}
+//			writer.flush();
+//			writer.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+	//	System.exit(0);
 //		System.out.println(result[result.length/2].getExt());
-		//setupGUI(frameX, frameY, result);
+		//upDate(result);
 	}
 }

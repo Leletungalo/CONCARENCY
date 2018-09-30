@@ -28,9 +28,9 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
                // System.out.println(lengthOfTree);
                 int x1 = xOfTree;
                 int y2 = yOfTree;
-                int xr = xOfTree - lengthOfTree;
-                int yr = yOfTree - lengthOfTree;
-                lengthOfTree = lengthOfTree + 1;
+                int xr = xOfTree;//- lengthOfTree;
+                int yr = yOfTree;//- lengthOfTree;
+               // lengthOfTree = lengthOfTree + 1;
                 count++;
 
                 float totalForOneTree = 0;
@@ -51,7 +51,7 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
                 }
                   lengthOfTree = Math.round( lengthOfTree + totalForOneTree/1000);
 
-                tree.add(new Tree(x1,y2,lengthOfTree/2+1));
+                tree.add(new Tree(x1,y2,lengthOfTree));
             }
             return tree;
         }
