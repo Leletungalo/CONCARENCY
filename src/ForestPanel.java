@@ -32,7 +32,7 @@ public class ForestPanel extends JPanel implements Runnable {
 			  //  System.out.println(maxh);
 				int rt = rndorder.get(t);
 
-				if(forest[rt].getExt() >= minh && forest[rt].getExt() < maxh && forest[rt].getExt() != -1 ) { // only render trees in current band
+				if(forest[rt].getExt() >= minh && forest[rt].getExt() < maxh ) { // only render trees in current band
 					// draw trees as rectangles centered on getX, getY with random greenish colour
 					g.setColor(new Color(rnd.nextInt(100), 150+rnd.nextInt(100), rnd.nextInt(100)));
 					g.fillRect(forest[rt].getY() - (int) forest[rt].getExt(), forest[rt].getX() - (int) forest[rt].getExt(),

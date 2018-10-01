@@ -8,7 +8,7 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
     private ArrayList<float[]> arr;
     private ArrayList<Tree> tree;
     private SunData sunData;
-    private static final int SEQUENTIAL_CUTOFF = 500;
+    private static final int SEQUENTIAL_CUTOFF = 600;
 
    public Tread(ArrayList<float[]> a, int l, int h,SunData sunData) {
         lo=l; hi=h; arr=a;
@@ -20,11 +20,11 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
 
         if((hi-lo) < SEQUENTIAL_CUTOFF) {
             //float[][] data = sunData.sunmap.getLand();
-            int count = 0;
+            int count = 10;
             for(int i=lo; i < hi; i++){
-                int xOfTree = (int) arr.get(count)[0];
-                int yOfTree = (int) arr.get(count)[1];
-                int lengthOfTree = (int) arr.get(count)[2];
+                int xOfTree = (int) arr.get(i)[0];
+                int yOfTree = (int) arr.get(i)[1];
+                int lengthOfTree = (int) arr.get(i)[2];
 
                 int x1 = xOfTree;
                 int y2 = yOfTree;
@@ -56,11 +56,10 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
                 float s = totalForOneTree/numberOfCells;
                 float newLengthOfTree = intialLength + s/1000;
 
-                for (Tree t : sunData.trees){
+                for (Tree t : sunData.inTrees){
 
                 if (t.getX() == x1 && t.getY() == y2)
                     t.setExt(newLengthOfTree);
-                   // System.out.println("leg");
                 }
 
                 tree.add(new Tree(x1,y2,newLengthOfTree));
@@ -72,7 +71,7 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
            Tread right= new Tread(arr,(hi+lo)/2,hi,sunData);
 
             left.fork();
-            right.fork();
+            right.compute();
             ArrayList<Tree> rightAns = right.join();
             ArrayList<Tree> leftAns  = left.join();
             ArrayList<Tree> newlist = new ArrayList<Tree>();

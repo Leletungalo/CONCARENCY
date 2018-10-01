@@ -4,6 +4,7 @@ public class Land{
 	
 	private int xOfLand, yOfLand;
 	private float[][] land;
+	private float[][] intialLand;
 	// sun exposure data here
 
 	static float shadefraction = 0.1f; // only this fraction of light is transmitted by a tree
@@ -12,6 +13,7 @@ public class Land{
 		this.xOfLand = dx;
 		this.yOfLand = dy;
 		land = new float[dx][dy];
+		intialLand = new float[dx][dy];
 	}
 
 	int getDimX() {
@@ -25,7 +27,7 @@ public class Land{
 	// Reset the shaded landscape to the same as the initial sun exposed landscape
 	// Needs to be done after each growth pass of the simulator
 	void resetShade() {
-		// to do
+		land = intialLand;
 
 	}
 	
@@ -36,6 +38,7 @@ public class Land{
 	
 	void setFull(int x, int y, String val) {
 		land[x][y] = Float.parseFloat(val);
+		intialLand[x][y] = Float.parseFloat(val);
 	}
 	
 	float getShade(int x, int y) {
