@@ -28,6 +28,8 @@ public class ForestPanel extends JPanel implements Runnable {
 		float maxh = 2.0f;
 		for(int layer = 0; layer <= 10; layer++) {
 			for(int t = 0; t < forest.length; t++){
+			  //  System.out.println(minh);
+			  //  System.out.println(maxh);
 				int rt = rndorder.get(t);
 
 				if(forest[rt].getExt() >= minh && forest[rt].getExt() < maxh && forest[rt].getExt() != -1 ) { // only render trees in current band

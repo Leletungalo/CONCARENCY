@@ -3,7 +3,7 @@
 public class Land{
 	
 	private int xOfLand, yOfLand;
-	private static float[][] land;
+	private float[][] land;
 	// sun exposure data here
 
 	static float shadefraction = 0.1f; // only this fraction of light is transmitted by a tree
@@ -39,16 +39,14 @@ public class Land{
 	}
 	
 	float getShade(int x, int y) {
-		// to do
-
-		return 0.0f; // incorrect value
+		return land[x][y];
 	}
 	
-	void setShade(int x, int y, float val){
-		// to do
+	synchronized void setShade(int x, int y, float val){
+		land[x][y] = val * 10/100;
 	}
 
-	public static synchronized float[][] getLand() {
+	public synchronized float[][] getLand() {
 		return land;
 	}
 

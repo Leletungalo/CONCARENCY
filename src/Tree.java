@@ -26,7 +26,7 @@ public
 		return ext;
 	}
 	
-	synchronized void setExt(int e) {
+	synchronized void setExt(float e) {
 		ext = e;
 	}
 
@@ -45,6 +45,6 @@ public
 	
 	// grow a tree according to its sun exposure
 	void sungrow(Land land) {
-		// to do
+		// to doh
 	}
 }
