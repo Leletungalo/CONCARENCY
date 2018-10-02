@@ -65,6 +65,11 @@ public class TreeGrow {
 	    //buttonpanel.setBackground(Color.red);
 		Label yearCounter = new Label("years");
 	    Button Exit = new Button("Exit");
+	    Exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);}
+		});
 	    Button play = new Button("Play");
 	    play.addActionListener(new ActionListener() {
 			@Override
@@ -207,7 +212,6 @@ public class TreeGrow {
 	}
 
 	public void play(SunData sundata){
-		// create and start simulation loop here as separate thread
 		while (isRunning()) {
 
 			//Tree[] result = new Tree[sundata.trees.length];
@@ -220,7 +224,6 @@ public class TreeGrow {
 			for (int i = 0; i < 10; i++) {
 				for (Tree t : sundata.trees) {
 					float ext = t.getExt();
-					//System.out.println(ext);
 					float x = t.getX();
 					float y = t.getY();
 					if (ext >= lower && ext < higher) {
@@ -251,10 +254,10 @@ public class TreeGrow {
 		}
 	}
 
-	public Tree[] Reset(Tree[] trees){
-		for (Tree tree : trees){
-			tree.setExt((float) 0.4);
-		}
-		return  trees;
-	}
+//	public Tree[] Reset(Tree[] trees){
+//		for (Tree tree : trees){
+//			tree.setExt((float) 0.4);
+//		}
+//		return  trees;
+//	}
 }

@@ -32,8 +32,7 @@ public class Land{
 	}
 	
 	float getFull(int x, int y) {
-		// to do
-		return 0.0f; // incorrect value
+		return land[x][y];
 	}
 	
 	void setFull(int x, int y, String val) {

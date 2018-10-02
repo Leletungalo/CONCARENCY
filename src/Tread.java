@@ -20,7 +20,7 @@ public class Tread extends RecursiveTask<ArrayList<Tree>> {
 
         if((hi-lo) < SEQUENTIAL_CUTOFF) {
             //float[][] data = sunData.sunmap.getLand();
-            int count = 10;
+            int count = 0;
             for(int i=lo; i < hi; i++){
                 int xOfTree = (int) arr.get(i)[0];
                 int yOfTree = (int) arr.get(i)[1];
