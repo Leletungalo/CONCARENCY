@@ -32,10 +32,44 @@ public
 
 	// return the average sunlight for the cells covered by the tree
 	float sunExposure(Land land){
-	/*	float[][] landArr = land.getLand();
-		float date = landArr[xpos - ext][ypos - ext];
-		*/
-		return 0.0f; // not correct
+		int xOfTree = getX();
+		int yOfTree = getY();
+		int lengthOfTree = (int) getExt();
+
+		int x1 = xOfTree;
+		int y2 = yOfTree;
+		int intialLength = lengthOfTree;
+		int xr = xOfTree - lengthOfTree;
+		int yr = yOfTree - lengthOfTree;
+
+		if (xr < 0){
+			xr = 0;
+		}
+
+		if (yr < 0){
+			yr = 0;
+		}
+
+		lengthOfTree = (lengthOfTree + lengthOfTree + 1);
+		//count++;
+
+		float totalForOneTree = 0;
+		int numberOfCells = 0;
+		for (int z = xr ; z < lengthOfTree; z++) {
+			try {
+				for (int l = yr; l < lengthOfTree ;l++){
+					float sss = land.getShade(xr,yr);
+					numberOfCells++;
+					totalForOneTree += sss;
+					yOfTree++;
+				}
+			}catch (ArrayIndexOutOfBoundsException e){}
+
+			yOfTree = yr;
+			xOfTree = xr + 1;
+			xr++;
+		}
+		return totalForOneTree/numberOfCells;
 	}
 	
 	// is the tree extent within the provided range [minr, maxr)
@@ -45,6 +79,9 @@ public
 	
 	// grow a tree according to its sun exposure
 	void sungrow(Land land) {
-		// to doh
+	    float size = sunExposure(land);
+	    float newext = getExt() + size/1000;
+		setExt(newext);
+		//setExt(land.getShade(this.xpos,this.ypos));
 	}
 }

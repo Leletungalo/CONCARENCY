@@ -19,18 +19,9 @@ public class TreeGrow {
 	static int frameY;
 	static ForestPanel fp;
 	static JFrame frame;
-	//static JPanel g;
-	//static SunData sundata;
+	public static SunData sundata;
 	private boolean running = true ;
 	private int yearCounter = 0;
-//	static BorderLayout bd;
-	TreeGrow() {
-	//	sundata = new SunData();
-	}
-	// start timer
-	private static void tick(){
-		startTime = System.currentTimeMillis();
-	}
 	
 	// stop timer, return time elapsed in seconds
 	private static float tock(){
@@ -44,8 +35,6 @@ public class TreeGrow {
 		frame = new JFrame("Photosynthesis");
     	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	frame.setPreferredSize(fsize);
-    	//bd = new BorderLayout();
-		//frame.setLayout(bd);
     	frame.setSize(800, 800);
     	
          JPanel	g = new JPanel();
@@ -74,8 +63,9 @@ public class TreeGrow {
 	    play.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Play");
-				treeGrow.setRunning(true);
+				SimulationClass sim = new SimulationClass(sundata);
+				sim.start();
+
 
 			}
 		});
@@ -105,7 +95,6 @@ public class TreeGrow {
       	frame.setLocationRelativeTo(null);// Center window on screen.
 		frame.add(g); //add contents to window
 		frame.setContentPane(g);
-		//frame.add(buttonpanel, bd.SOUTH);
         frame.setVisible(true);
         Thread fpt = new Thread(fp);
         fpt.start();
@@ -117,7 +106,7 @@ public class TreeGrow {
 	}
 		
 	public static void main(String[] args) {
-		SunData sundata = new SunData();
+		sundata = new SunData();
 		TreeGrow treeGrow = new TreeGrow();
 		// read in forest and landscape information from file supplied as argument
 		sundata.readData("sample_input.txt");
@@ -129,7 +118,7 @@ public class TreeGrow {
 		setupGUI(frameX, frameY, sundata.inTrees);
 
 
-		treeGrow.play(sundata);
+		//treeGrow.play(sundata);
 		// create and start simulation loop here as separate thread
 //		int lower = 18;
 //		int higher = 20;

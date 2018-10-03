@@ -48,9 +48,9 @@ public class Land{
 		land[x][y] = val * 10/100;
 	}
 
-	public synchronized float[][] getLand() {
-		return land;
-	}
+	//public synchronized float[][] getLand() {
+	//	return land;
+	//}
 
 	// reduce the
 	void shadow(Tree tree){
